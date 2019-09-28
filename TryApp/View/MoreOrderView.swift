@@ -8,29 +8,17 @@
 
 import UIKit
 
-class MoreOrderView: UIView {
+class MoreOrderView: UITableViewCell {
     
     var orders: [Order] = []
 
+    
     @IBOutlet weak var ShoppingCenterNameAndAdress: UILabel!
     @IBOutlet weak var OrderList: UITableView!
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        commonInit()
-    }
-    
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
-    }
-    
-    func commonInit() {
-        Bundle.main.loadNibNamed("MoreOrderView", owner: self, options: nil)
-        
-        OrderList.register(UINib(nibName: "RestaurantOrders", bundle: nil), forCellReuseIdentifier: "RestaurantOrders")
-    }
-    
     func setData (orders_in: [Order]) {
+        OrderList.register(UINib(nibName: "RestaurantOrders", bundle: nil), forCellReuseIdentifier: "RestaurantOrders")
+        
         orders = orders_in
         
         ShoppingCenterNameAndAdress.text = orders_in[0].Restaurant + " " + orders_in[0].Adress

@@ -64,10 +64,11 @@ extension TableListScreen: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let restaurant = data[indexPath.row]
+        
         let moreAbout = self.storyboard?.instantiateViewController(identifier: "MoreAbout") as! MenuViewController
         moreAbout.restaurant = restaurant
         
-        OrderGroups.tempOrder.Restaurant = restaurant.name
+        OrderGroups.restaurant = restaurant.name
         
         navigationItem.title = "Назад"
         

@@ -17,11 +17,9 @@
 		39142FBA233ECD5700C6AA42 /* Food.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39142FB9233ECD5700C6AA42 /* Food.swift */; };
 		395D36B7233F3BF0002E4121 /* Order.swift in Sources */ = {isa = PBXBuildFile; fileRef = 395D36B6233F3BEF002E4121 /* Order.swift */; };
 		395D36B9233F40F6002E4121 /* CartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 395D36B8233F40F6002E4121 /* CartViewController.swift */; };
-		395D36BD233F49E6002E4121 /* OneOrderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 395D36BC233F49E6002E4121 /* OneOrderView.xib */; };
 		395D36BF233F4A3B002E4121 /* OneOrderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 395D36BE233F4A3B002E4121 /* OneOrderView.swift */; };
 		395D36C1233F4ED5002E4121 /* OrderFoodCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 395D36C0233F4ED5002E4121 /* OrderFoodCell.xib */; };
 		395D36C9233F5189002E4121 /* OrderFoodCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 395D36C8233F5189002E4121 /* OrderFoodCell.swift */; };
-		395D36CB233F6013002E4121 /* MoreOrderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 395D36CA233F6013002E4121 /* MoreOrderView.xib */; };
 		395D36CD233F6034002E4121 /* MoreOrderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 395D36CC233F6034002E4121 /* MoreOrderView.swift */; };
 		395D36CF233F6B8B002E4121 /* RestaurantOrders.xib in Resources */ = {isa = PBXBuildFile; fileRef = 395D36CE233F6B8B002E4121 /* RestaurantOrders.xib */; };
 		395D36D1233F6BAA002E4121 /* RestaurantOrders.swift in Sources */ = {isa = PBXBuildFile; fileRef = 395D36D0233F6BAA002E4121 /* RestaurantOrders.swift */; };
@@ -66,11 +64,9 @@
 		39142FB9233ECD5700C6AA42 /* Food.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Food.swift; sourceTree = "<group>"; };
 		395D36B6233F3BEF002E4121 /* Order.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Order.swift; sourceTree = "<group>"; };
 		395D36B8233F40F6002E4121 /* CartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartViewController.swift; sourceTree = "<group>"; };
-		395D36BC233F49E6002E4121 /* OneOrderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OneOrderView.xib; sourceTree = "<group>"; };
 		395D36BE233F4A3B002E4121 /* OneOrderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneOrderView.swift; sourceTree = "<group>"; };
 		395D36C0233F4ED5002E4121 /* OrderFoodCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OrderFoodCell.xib; sourceTree = "<group>"; };
 		395D36C8233F5189002E4121 /* OrderFoodCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderFoodCell.swift; sourceTree = "<group>"; };
-		395D36CA233F6013002E4121 /* MoreOrderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MoreOrderView.xib; sourceTree = "<group>"; };
 		395D36CC233F6034002E4121 /* MoreOrderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreOrderView.swift; sourceTree = "<group>"; };
 		395D36CE233F6B8B002E4121 /* RestaurantOrders.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RestaurantOrders.xib; sourceTree = "<group>"; };
 		395D36D0233F6BAA002E4121 /* RestaurantOrders.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantOrders.swift; sourceTree = "<group>"; };
@@ -153,7 +149,6 @@
 		395D36C3233F5068002E4121 /* Controlls */ = {
 			isa = PBXGroup;
 			children = (
-				395D36C7233F50FD002E4121 /* XIB */,
 				39142FAF233E9B9000C6AA42 /* TableListScreen.swift */,
 				395D36B8233F40F6002E4121 /* CartViewController.swift */,
 				39142FB1233EB3F800C6AA42 /* MenuViewController.swift */,
@@ -194,21 +189,12 @@
 			path = Storyboard;
 			sourceTree = "<group>";
 		};
-		395D36C7233F50FD002E4121 /* XIB */ = {
-			isa = PBXGroup;
-			children = (
-				395D36BE233F4A3B002E4121 /* OneOrderView.swift */,
-				395D36BC233F49E6002E4121 /* OneOrderView.xib */,
-				395D36CA233F6013002E4121 /* MoreOrderView.xib */,
-				395D36CC233F6034002E4121 /* MoreOrderView.swift */,
-			);
-			path = XIB;
-			sourceTree = "<group>";
-		};
 		395D36D6233FB805002E4121 /* View */ = {
 			isa = PBXGroup;
 			children = (
 				395D36D7233FB827002E4121 /* SelfSizeTableView.swift */,
+				395D36BE233F4A3B002E4121 /* OneOrderView.swift */,
+				395D36CC233F6034002E4121 /* MoreOrderView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -384,10 +370,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				3969BD16233B5E750047D24A /* LaunchScreen.storyboard in Resources */,
-				395D36BD233F49E6002E4121 /* OneOrderView.xib in Resources */,
 				395D36C1233F4ED5002E4121 /* OrderFoodCell.xib in Resources */,
 				3969BD13233B5E750047D24A /* Preview Assets.xcassets in Resources */,
-				395D36CB233F6013002E4121 /* MoreOrderView.xib in Resources */,
 				395D36CF233F6B8B002E4121 /* RestaurantOrders.xib in Resources */,
 				3969BD10233B5E750047D24A /* Assets.xcassets in Resources */,
 				3969BD3A233B61250047D24A /* Main.storyboard in Resources */,

@@ -7,7 +7,7 @@
 
 import UIKit
 
-class OneOrderView: UIView {
+class OneOrderView: UITableViewCell {
     
     var order : Order = Order.init()
 
@@ -15,22 +15,9 @@ class OneOrderView: UIView {
     @IBOutlet weak var ShoppingCenterNameAndPlace: UILabel!
     @IBOutlet weak var OrderTableView: UITableView!
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        commonInit()
-    }
-    
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
-    }
-
-    func commonInit() {
-        Bundle.main.loadNibNamed("OneOrderView", owner: self, options: nil)
-        
-        OrderTableView.register(UINib(nibName: "OrderFoodCell", bundle: nil), forCellReuseIdentifier: "OrderFoodCell")
-    }
-    
     func setData(order_in: Order) {
+        OrderTableView.register(UINib(nibName: "OrderFoodCell", bundle: nil), forCellReuseIdentifier: "OrderFoodCell")
+        
         order = order_in
         
         RestaurantName.text = order_in.Restaurant

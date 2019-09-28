@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class MenuViewController : UIViewController {
+class MenuViewController : UIViewController, UINavigationControllerDelegate {
     
     var data : [Food] = []
     
@@ -33,11 +33,9 @@ class MenuViewController : UIViewController {
         if let image = restaurant.image{
             Image.image = image
         }
-        
+        MenuTableView.reloadData()
         MenuTableView.delegate = self
         MenuTableView.dataSource = self
-        
-        MenuTableView.reloadData()
     }
     
     func getArray() -> [Food] {
@@ -57,7 +55,9 @@ class MenuViewController : UIViewController {
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        OrderGroups.tempOrder.Restaurant = ""
+        if self.isMovingFromParent{
+            OrderGroups.restaurant = ""
+        }
     }
 }
 
@@ -81,12 +81,9 @@ extension MenuViewController: UITableViewDataSource, UITableViewDelegate {
         let foodAbout = self.storyboard?.instantiateViewController(identifier: "FoodAbout") as! FoodViewController
         foodAbout.food = food
         
-        print("Pressed")
-        
         navigationItem.title = "Назад"
         
         self.navigationController?.pushViewController(foodAbout, animated: true)
     }
-    
     
 }
