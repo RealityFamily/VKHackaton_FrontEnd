@@ -67,6 +67,8 @@ extension TableListScreen: UITableViewDataSource, UITableViewDelegate {
         let moreAbout = self.storyboard?.instantiateViewController(identifier: "MoreAbout") as! MenuViewController
         moreAbout.restaurant = restaurant
         
+        OrderGroups.tempOrder.Restaurant = restaurant.name
+        
         navigationItem.title = "Назад"
         
         self.navigationController?.pushViewController(moreAbout, animated: true)

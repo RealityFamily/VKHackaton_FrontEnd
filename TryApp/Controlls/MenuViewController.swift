@@ -36,6 +36,8 @@ class MenuViewController : UIViewController {
         
         MenuTableView.delegate = self
         MenuTableView.dataSource = self
+        
+        MenuTableView.reloadData()
     }
     
     func getArray() -> [Food] {
@@ -47,11 +49,15 @@ class MenuViewController : UIViewController {
         let Food4 = Food.init(name: "Наггетсы", description: "", price: 50, image: nil)
         
         temp_array.append(Food1)
-//        temp_array.append(Food2)
-//        temp_array.append(Food3)
-//        temp_array.append(Food4)
+        temp_array.append(Food2)
+        temp_array.append(Food3)
+        temp_array.append(Food4)
         
         return temp_array
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        OrderGroups.tempOrder.Restaurant = ""
     }
 }
 
@@ -65,8 +71,22 @@ extension MenuViewController: UITableViewDataSource, UITableViewDelegate {
         let food = data[indexPath.row]
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "MenuCell") as! MenuCell
-//        cell.setData(food: food)
+        cell.setData(food: food)
         
         return cell
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let food = data[indexPath.row]
+        let foodAbout = self.storyboard?.instantiateViewController(identifier: "FoodAbout") as! FoodViewController
+        foodAbout.food = food
+        
+        print("Pressed")
+        
+        navigationItem.title = "Назад"
+        
+        self.navigationController?.pushViewController(foodAbout, animated: true)
+    }
+    
+    
 }
