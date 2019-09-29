@@ -9,23 +9,24 @@
 import Foundation
 import UIKit
 
-class Food {
-    var Name : String
-    var Description : String
-    var Price : Float
-    var Image : UIImage?
+class Food : Codable{
+    var menuItemId : String?
+    var itemName : String?
+    var describe : String?
+    var price : Float?
+    var image : String?
     
-    init(name: String, description: String, price: Float, image: UIImage?) {
-        Name = name
-        Description = description
-        Price = price
-        Image = image
+    init(Name: String, Description: String, Price: Float, Image: String?) {
+        itemName = Name
+        describe = Description
+        price = Price
+        image = Image
     }
     
     init() {
-        Name = ""
-        Description = ""
-        Price = 0.0
-        Image = nil
+        itemName = ""
+        describe = ""
+        price = 0.0
+        image = nil
     }
 }

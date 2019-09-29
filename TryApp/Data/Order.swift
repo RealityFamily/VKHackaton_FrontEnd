@@ -8,12 +8,13 @@
 
 import Foundation
 
-class Order {
-    var ShoppingCenter : String
-    var Adress : String
-    var OrderStructure : [Food]
-    var Restaurant : String
-    var Price : Float
+class Order : Codable {
+    var orderId : String?
+    var ShoppingCenter : String?
+    var Adress : String?
+    var OrderStructure : [Food]?
+    var Restaurant : String?
+    var Price : Float?
     var Paid : Bool
     
     init() {
@@ -33,4 +34,11 @@ class Order {
         self.Price = price
         self.Paid = paid
     }
+}
+
+extension Encodable {
+  var dictionary: [String: Any]? {
+    guard let data = try? JSONEncoder().encode(self) else { return nil }
+    return (try? JSONSerialization.jsonObject(with: data, options: .allowFragments)).flatMap { $0 as? [String: Any] }
+  }
 }

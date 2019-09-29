@@ -35,6 +35,10 @@ class CartViewController : UIViewController {
             ActivityButton.setTitle("Выбрать Торговый Центр", for: .normal)
         }
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        ItemsTableView.reloadData()
+    }
 }
 
 extension CartViewController : UITableViewDelegate, UITableViewDataSource {
@@ -65,9 +69,16 @@ extension CartViewController : UITableViewDelegate, UITableViewDataSource {
         if (editingStyle == .delete) {
             if (indexPath.row < OrderGroups.shoppingCenterOrders.count) {
                 OrderGroups.shoppingCenterOrders.remove(at: indexPath.row)
+                tableView.reloadData()
             } else {
-                OrderGroups.restaurantOrders.remove(at: indexPath.row - OrderGroups.shoppingCenterOrders.count)
+                let index = indexPath.row - OrderGroups.shoppingCenterOrders.count
+                OrderGroups.restaurantOrders.remove(at: index)
+                tableView.reloadData()
             }
         }
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 350
     }
 }

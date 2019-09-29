@@ -15,10 +15,16 @@ class CustomCell: UITableViewCell {
     @IBOutlet weak var MarkTextView: UILabel!
     
     func setData(restaurant: Restaurant){
-        NameTextView.text = restaurant.name
-        MarkTextView.text = String(restaurant.mark)
+        if let name = restaurant.name {
+            NameTextView.text = name
+        }
+        if let rate = restaurant.rate{
+            MarkTextView.text = String(rate)
+        }
         if let image = restaurant.image {
-            ImageView.image = image
+            let uri = Network.UrlBase + "/" + image
+            let encodedUri = uri.addingPercentEncoding(withAllowedCharacters: NSCharacterSet.urlQueryAllowed)!
+            ImageView.downloaded(from: encodedUri, mode: .scaleAspectFill)
         }
     }
 }

@@ -28,11 +28,11 @@ class RestaurantOrders: UITableViewCell {
 extension RestaurantOrders: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return order.OrderStructure.count
+        return order.OrderStructure!.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let food = order.OrderStructure[indexPath.row]
+        let food = order.OrderStructure![indexPath.row]
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "OrderFoodCell", for: indexPath) as! OrderFoodCell
         cell.setData(food: food)

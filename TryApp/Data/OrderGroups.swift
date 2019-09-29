@@ -8,13 +8,13 @@
 
 import Foundation
 
-class ConnectedOrders {
+class ConnectedOrders : Codable{
     var ShoppingCenter : String = ""
     var Cost : Float = 0.0
     var Orders : [Order] = []
 }
 
-class OrderGroups {
+class OrderGroups : Codable{
     static var orderStructure : [Food] = []
     static var restaurant : String = ""
     static var price : Float = 0.0
@@ -29,10 +29,12 @@ class OrderGroups {
         
         for order in restaurantOrders{
             if (order.Restaurant == tempOrder.Restaurant){
-                for food in tempOrder.OrderStructure {
-                    order.OrderStructure.append(food)
+                for food in tempOrder.OrderStructure! {
+                    order.OrderStructure!.append(food)
                 }
-                order.Price += tempOrder.Price
+                guard var unwrapped3 = order.Price else { return }
+                guard let unwrapped4 = tempOrder.Price else { return }
+                unwrapped3 += unwrapped4
                 return
             }
         }

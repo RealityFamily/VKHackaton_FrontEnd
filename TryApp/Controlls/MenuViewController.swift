@@ -24,39 +24,33 @@ class MenuViewController : UIViewController, UINavigationControllerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        data = getArray()
+        Network.GetMenu(restaurantId: restaurant.restaurantId! , success: {
+            answer in
+            self.data = answer
+            self.MenuTableView.reloadData()
+        })
         
         self.navigationController?.isNavigationBarHidden = false
         
-        Name.text = restaurant.name
-        Mark.text = String(restaurant.mark)
+        if let name = restaurant.name{
+            Name.text = name
+        }
+        if let rate = restaurant.rate{
+            Mark.text = String(rate)
+        }
         if let image = restaurant.image{
-            Image.image = image
+            let uri = Network.UrlBase + "/" + image
+            let encodedUri = uri.addingPercentEncoding(withAllowedCharacters: NSCharacterSet.urlQueryAllowed)!
+            Image.downloaded(from: encodedUri, mode: .scaleAspectFill)
         }
         MenuTableView.reloadData()
         MenuTableView.delegate = self
         MenuTableView.dataSource = self
     }
     
-    func getArray() -> [Food] {
-        var temp_array : [Food] = []
-        
-        let Food1 = Food.init(name: "Чизбургер", description: "", price: 50.0, image: nil)
-        let Food2 = Food.init(name: "БигМак", description: "", price: 50, image: nil)
-        let Food3 = Food.init(name: "БигТести", description: "", price: 50, image: nil)
-        let Food4 = Food.init(name: "Наггетсы", description: "", price: 50, image: nil)
-        
-        temp_array.append(Food1)
-        temp_array.append(Food2)
-        temp_array.append(Food3)
-        temp_array.append(Food4)
-        
-        return temp_array
-    }
-    
     override func viewWillDisappear(_ animated: Bool) {
         if self.isMovingFromParent{
-            OrderGroups.restaurant = ""
+            OrderGroups.orderStructure = []
         }
     }
 }
@@ -86,4 +80,18 @@ extension MenuViewController: UITableViewDataSource, UITableViewDelegate {
         self.navigationController?.pushViewController(foodAbout, animated: true)
     }
     
+}
+
+extension UIImageView {
+    func load(url: URL) {
+        DispatchQueue.global().async { [weak self] in
+            if let data = try? Data(contentsOf: url) {
+                if let image = UIImage(data: data) {
+                    DispatchQueue.main.async {
+                        self?.image = image
+                    }
+                }
+            }
+        }
+    }
 }

@@ -1,4 +1,5 @@
 PODS:
+  - Alamofire (4.9.0)
   - YandexMapKit (3.4):
     - YandexRuntime (= 3.4)
   - YandexMapKitSearch (3.4):
@@ -10,23 +11,26 @@ PODS:
   - YandexRuntime (3.4)
 
 DEPENDENCIES:
+  - Alamofire
   - YandexMapKit (= 3.4)
   - YandexMapKitSearch (= 3.4)
   - YandexMapKitTransport (= 3.4)
 
 SPEC REPOS:
   trunk:
+    - Alamofire
     - YandexMapKit
     - YandexMapKitSearch
     - YandexMapKitTransport
     - YandexRuntime
 
 SPEC CHECKSUMS:
+  Alamofire: afc3e7c6db61476cb45cdd23fed06bad03bbc321
   YandexMapKit: f222923561fe159dd8480d927f61950fc5ff3b8d
   YandexMapKitSearch: 9d658009a11ce4973e5b1c59aacb72c3f63c808a
   YandexMapKitTransport: 8c60e661d3310172866f972866d40823bc3b2eb0
   YandexRuntime: 2547d72a3ce4757f16ad188cfbe8a124ae13d806
 
-PODFILE CHECKSUM: 9c398835833355177bf4f58f7301be12d29c9772
+PODFILE CHECKSUM: 480fd695dc6e30e296ee575979a895fd1d0cf676
 
 COCOAPODS: 1.8.0

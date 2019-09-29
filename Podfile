@@ -9,5 +9,6 @@ target 'TryApp' do
   pod 'YandexMapKit', '3.4'
   pod 'YandexMapKitSearch', '3.4'
   pod 'YandexMapKitTransport', '3.4'
+  pod 'Alamofire'
 
 end

@@ -21,7 +21,9 @@ class MoreOrderView: UITableViewCell {
         
         orders = orders_in
         
-        ShoppingCenterNameAndAdress.text = orders_in[0].Restaurant + " " + orders_in[0].Adress
+        guard let unwrapped = orders_in[0].Restaurant else { return }
+        guard let unwrapped1 = orders_in[0].Adress else { return }
+        ShoppingCenterNameAndAdress.text = unwrapped + " " + unwrapped1
     }
 
 }

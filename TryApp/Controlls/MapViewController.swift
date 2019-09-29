@@ -1,44 +1,120 @@
 //
-//  MapViewController.swift
-//  TryApp
+//  ViewController.swift
+//  MapKitTutorial
 //
-//  Created by RealityFamily on 25/09/2019.
-//  Copyright © 2019 RealityFamily. All rights reserved.
+//  Created by Robert Chen on 12/23/15.
+//  Copyright © 2015 Thorn Technologies. All rights reserved.
 //
-
-import Foundation
-import YandexMapKit
 import UIKit
+import MapKit
 
-class MapViewController: UIViewController, YMKUserLocationObjectListener{
+protocol HandleMapSearch: class {
+    func dropPinZoomIn(placemark:MKPlacemark)
+}
+
+class ViewController: UIViewController {
     
-    @IBOutlet var mapView: YMKMapView!
+    var selectedPin: MKPlacemark?
+    var resultSearchController: UISearchController!
     
-    let Target_Location = YMKPoint(latitude: 59.945933, longitude: 30.320045)
+    let locationManager = CLLocationManager()
+    
+    
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        mapView.mapWindow.map.move(
-            with: YMKCameraPosition(target: Target_Location, zoom: 15, azimuth: 0, tilt: 0),
-            animationType: YMKAnimation(type: YMKAnimationType.smooth, duration: 5),
-            cameraCallback: nil)
+        locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.requestLocation()
+        let locationSearchTable = storyboard!.instantiateViewControllerWithIdentifier("LocationSearchTable") as! LocationSearchTable
+        resultSearchController = UISearchController(searchResultsController: locationSearchTable)
+        resultSearchController.searchResultsUpdater = locationSearchTable
+        let searchBar = resultSearchController!.searchBar
+        searchBar.sizeToFit()
+        searchBar.placeholder = "Search for places"
+        navigationItem.titleView = resultSearchController?.searchBar
+        resultSearchController.hidesNavigationBarDuringPresentation = false
+        resultSearchController.dimsBackgroundDuringPresentation = true
+        definesPresentationContext = true
+        locationSearchTable.mapView = mapView
+        locationSearchTable.handleMapSearchDelegate = self
         
-        let scale = UIScreen.main.scale
-        let mapKit = YMKMapKit.sharedInstance()!
-        let userLocationLayer = mapKit.createUserLocationLayer(with: mapView.mapWindow)
-
-        userLocationLayer.setVisibleWithOn(true)
-        userLocationLayer.isHeadingEnabled = true
-        userLocationLayer.setAnchorWithAnchorNormal(
-            CGPoint(x: 0.5 * mapView.frame.size.width * scale, y: 0.5 * mapView.frame.size.height * scale),
-            anchorCourse: CGPoint(x: 0.5 * mapView.frame.size.width * scale, y: 0.83 * mapView.frame.size.height * scale))
-        userLocationLayer.setObjectListenerWith(self)
     }
     
-    func onObjectAdded(with view: YMKUserLocationView) {}
+    func getDirections(){
+        guard let selectedPin = selectedPin else { return }
+        let mapItem = MKMapItem(placemark: selectedPin)
+        let launchOptions = [MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDriving]
+        mapItem.openInMaps(launchOptions: launchOptions)
+    }
+}
+
+extension ViewController : CLLocationManagerDelegate {
     
-    func onObjectRemoved(with view: YMKUserLocationView) {}
+    func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
+        if status == .authorizedWhenInUse {
+            locationManager.requestLocation()
+        }
+    }
     
-    func onObjectUpdated(with view: YMKUserLocationView, event: YMKObjectEvent) {}
+    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard let location = locations.first else { return }
+        let span = MKCoordinateSpanMake(0.05, 0.05)
+        let region = MKCoordinateRegion(center: location.coordinate, span: span)
+        mapView.setRegion(region, animated: true)
+    }
+    
+    func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
+        print("error:: \(error)")
+    }
+
+}
+
+extension ViewController: HandleMapSearch {
+    
+    func dropPinZoomIn(placemark: MKPlacemark){
+        // cache the pin
+        selectedPin = placemark
+        // clear existing pins
+        mapView.removeAnnotations(mapView.annotations)
+        let annotation = MKPointAnnotation()
+        annotation.coordinate = placemark.coordinate
+        annotation.title = placemark.name
+        
+        if let city = placemark.locality,
+            let state = placemark.administrativeArea {
+                annotation.subtitle = "\(city) \(state)"
+        }
+        
+        mapView.addAnnotation(annotation)
+        let span = MKCoordinateSpanMake(0.05, 0.05)
+        let region = MKCoordinateRegionMake(placemark.coordinate, span)
+        mapView.setRegion(region, animated: true)
+    }
+    
+}
+
+extension ViewController : MKMapViewDelegate {
+    
+    func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView?{
+        
+        guard !(annotation is MKUserLocation) else { return nil }
+        let reuseId = "pin"
+        var pinView = mapView.dequeueReusableAnnotationView(withIdentifier: reuseId) as? MKPinAnnotationView
+        if pinView == nil {
+            pinView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: reuseId)
+        }
+        pinView?.pinTintColor = UIColor.orangeColor
+        pinView?.canShowCallout = true
+        let smallSquare = CGSize(width: 30, height: 30)
+        let button = UIButton(frame: CGRect(origin: CGPointZero, size: smallSquare))
+        button.setBackgroundImage(UIImage(named: "car"), for: .Normal)
+        button.addTarget(self, action: #selector(ViewController.getDirections), for: .TouchUpInside)
+        pinView?.leftCalloutAccessoryView = button
+        
+        return pinView
+    }
 }

@@ -23,7 +23,9 @@ class FoodViewController: UIViewController {
     
     @IBAction func ChangeStepper(_ sender: UIStepper) {
         Count.text = String(Int(sender.value))
-        FullPrice.text = "Итого: " + String(Float(Int(sender.value)) * food.Price) + "₽"
+        if let price = food.price {
+            FullPrice.text = "Итого: " + String(Float(Int(sender.value)) * price) + "₽"
+        }
     }
     
     @IBAction func AddToOrder(_ sender: UIButton) {
@@ -32,22 +34,31 @@ class FoodViewController: UIViewController {
             for _ in 1...Int(Stepper.value){
                 OrderGroups.orderStructure.append(food)
             }
-            OrderGroups.price = Float(Int(Stepper.value)) * food.Price
+            if let price = food.price {
+                OrderGroups.price = Float(Int(Stepper.value)) * price
+            }
         
             OrderGroups.AddToRestaurantOrders()
-            OrderGroups.clear()
         }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if let image = food.Image {
-            MainImage.image = image
+        if let Image = food.image {
+            let uri = Network.UrlBase + "/" + Image
+            let encodedUri = uri.addingPercentEncoding(withAllowedCharacters: NSCharacterSet.urlQueryAllowed)!
+            MainImage.downloaded(from: encodedUri, mode: .scaleAspectFill)
         }
-        Name.text = food.Name
-        Price.text = String(food.Price)
-        Description.text = food.Description
+        if let name = food.itemName {
+            Name.text = name
+        }
+        if let price = food.price {
+            Price.text = String(price)
+        }
+        if let description = food.describe {
+            Description.text = description
+        }
         
         Count.text = String(0)
         FullPrice.text = "Итого: 0₽"

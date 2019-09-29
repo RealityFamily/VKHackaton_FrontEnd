@@ -16,23 +16,37 @@ class OneOrderView: UITableViewCell {
     @IBOutlet weak var OrderTableView: UITableView!
     
     func setData(order_in: Order) {
-        OrderTableView.register(UINib(nibName: "OrderFoodCell", bundle: nil), forCellReuseIdentifier: "OrderFoodCell")
         
         order = order_in
         
+        OrderTableView.reloadData()
+        
+        OrderTableView.delegate = self
+        OrderTableView.dataSource = self
+        
         RestaurantName.text = order_in.Restaurant
-        ShoppingCenterNameAndPlace.text = order_in.ShoppingCenter + " " + order_in.Adress
+        if (order_in.ShoppingCenter == "" && order_in.Adress == "") {
+            ShoppingCenterNameAndPlace.isHidden = true
+        } else {
+            guard let unwrapped = order_in.ShoppingCenter else { return }
+            guard let unwrapped1 = order_in.Adress else { return }
+            ShoppingCenterNameAndPlace.text = unwrapped + " " + unwrapped1
+        }
     }
+    
+    
 }
 
 extension OneOrderView: UITableViewDelegate, UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return order.OrderStructure.count
+        guard let unwrapped = order.OrderStructure else { return 0 }
+        return unwrapped.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let food = order.OrderStructure[indexPath.row]
+        guard let unwrapped = order.OrderStructure else { return UITableViewCell() }
+        let food = unwrapped[indexPath.row]
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "OrderFoodCell", for: indexPath) as! OrderFoodCell
         cell.setData(food: food)
@@ -40,3 +54,6 @@ extension OneOrderView: UITableViewDelegate, UITableViewDataSource{
         return cell
     }
 }
+
+
+

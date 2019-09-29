@@ -18,7 +18,11 @@ class TableListScreen: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        data = getArray()
+        Network.GetRestaurant(page: 0, success: {
+            answer in
+            self.data = answer
+            self.TableView.reloadData()
+        })
          
         TableView.delegate = self
         TableView.dataSource = self
@@ -26,24 +30,9 @@ class TableListScreen: UIViewController {
         self.navigationController?.isNavigationBarHidden = true
     }
     
-    func getArray() -> [Restaurant] {
-        var temp_array : [Restaurant] = []
-        
-        let Restaurant1 = Restaurant.init(name: "Макдональдс", adress: "", mark: 4.5, image: nil)
-        let Restaurant2 = Restaurant.init(name: "KFC", adress: "", mark: 4.2, image: nil)
-        let Restaurant3 = Restaurant.init(name: "Бургер Кинг", adress: "", mark: 3.9, image: nil)
-        let Restaurant4 = Restaurant.init(name: "SubWay", adress: "", mark: 4.1, image: nil)
-        
-        temp_array.append(Restaurant1)
-        temp_array.append(Restaurant2)
-        temp_array.append(Restaurant3)
-        temp_array.append(Restaurant4)
-        
-        return temp_array
-    }
-    
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.isNavigationBarHidden = true
+        OrderGroups.restaurant = ""
     }
 }
 
@@ -68,7 +57,9 @@ extension TableListScreen: UITableViewDataSource, UITableViewDelegate {
         let moreAbout = self.storyboard?.instantiateViewController(identifier: "MoreAbout") as! MenuViewController
         moreAbout.restaurant = restaurant
         
-        OrderGroups.restaurant = restaurant.name
+        if let name = restaurant.name {
+            OrderGroups.restaurant = name
+        }
         
         navigationItem.title = "Назад"
         
