@@ -10,7 +10,7 @@ import Foundation
 import Alamofire
 
 class Network {
-    static let UrlBase : String = "http://192.168.43.99:5000"
+    static let UrlBase : String = "http://95.213.37.10:5000"
     
     static func GetRestaurant(page: Int, success: @escaping (_ answer : [Restaurant]) -> Void){
         
